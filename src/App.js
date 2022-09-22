@@ -1,6 +1,3 @@
-// Pages
-import { Factory, Product } from "./pages";
-
 //  React Router
 import {
   createBrowserRouter,
@@ -11,6 +8,12 @@ import {
 
 // Constants
 import ROUTES from "./constants/routes";
+
+// Pages
+import { Factory, Product } from "./pages";
+
+// Containers
+import { Header } from "./containers";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +31,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Header />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
