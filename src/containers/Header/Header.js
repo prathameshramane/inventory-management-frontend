@@ -13,7 +13,7 @@ import FactoryIcon from "@mui/icons-material/Factory";
 function Header() {
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography
             variant="h6"
