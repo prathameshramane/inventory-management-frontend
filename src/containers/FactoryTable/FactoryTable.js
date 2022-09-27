@@ -12,7 +12,9 @@ import Box from "@mui/material/Box";
 
 // Services
 import { getAllFactory } from "../../services";
-import { CircularProgress } from "@mui/material";
+
+// Containers
+import { ErrorScreen, LoadingScreen } from "../../containers";
 
 function FactoryTable(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +41,10 @@ function FactoryTable(props) {
       });
   };
 
-  return isLoading || factories == null ? (
-    <CircularProgress />
+  return (isLoading || factories == null) && !isError ? (
+    <LoadingScreen />
   ) : isError ? (
-    <p>Error</p>
+    <ErrorScreen />
   ) : (
     <Box {...props}>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
