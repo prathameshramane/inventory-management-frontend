@@ -24,6 +24,7 @@ import {
   LoadingScreen,
   DeleteConfirmation,
 } from "../../components";
+import EditFactoryModal from "../EditFactoryModal/EditFactoryModal";
 
 function FactoryTable(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,8 +33,10 @@ function FactoryTable(props) {
   const [factories, setFactories] = useState(null);
 
   const [showDelete, setShowDelete] = useState(false);
-
   const [factoryDeleteId, setFactoryDeleteId] = useState(null);
+
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [factoryUpdateId, setFactoryUpdateId] = useState(null);
 
   useEffect(() => {
     handleGetAllFactory();
@@ -65,6 +68,23 @@ function FactoryTable(props) {
     setShowDelete(false);
   };
 
+  const onUpdateClick = (factoryId) => {
+    setFactoryUpdateId(factoryId);
+    setShowUpdate(true);
+  };
+
+  const handleUpdate = (updatedData) => {
+    console.log("Updating factory with Id: ", factoryUpdateId);
+    console.log("Updated Data: ", updatedData);
+    setFactoryUpdateId(null);
+    setShowUpdate(false);
+  };
+
+  const getFactoryDataById = (factoryId) => {
+    const index = factories.findIndex((factory) => factory.id === factoryId);
+    return factories[index];
+  };
+
   return (isLoading || factories == null) && !isError ? (
     <LoadingScreen />
   ) : isError ? (
@@ -92,7 +112,10 @@ function FactoryTable(props) {
                       <TableCell>{factory.name}</TableCell>
                       <TableCell>{factory.location}</TableCell>
                       <TableCell>
-                        <IconButton color="primary">
+                        <IconButton
+                          color="primary"
+                          onClick={() => onUpdateClick(factory.id)}
+                        >
                           <EditIcon />
                         </IconButton>
                       </TableCell>
@@ -116,6 +139,12 @@ function FactoryTable(props) {
         show={showDelete}
         setShow={setShowDelete}
         onConfirmDelete={handleDelete}
+      />
+      <EditFactoryModal
+        show={showUpdate}
+        setShow={setShowUpdate}
+        onConfirmUpdate={handleUpdate}
+        factory={getFactoryDataById(factoryUpdateId)}
       />
     </>
   );

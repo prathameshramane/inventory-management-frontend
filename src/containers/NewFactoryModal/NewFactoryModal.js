@@ -103,6 +103,7 @@ function NewFactoryModal() {
                 <Controller
                   name="location"
                   control={control}
+                  rules={{ required: true }}
                   defaultValue=""
                   render={({ field }) => (
                     <TextField
