@@ -11,10 +11,15 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // Material Icon
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
+
+// Services
+import { addNewFactory } from "../../services";
 
 const modalStyle = (theme) => ({
   position: "absolute",
@@ -31,10 +36,13 @@ const modalStyle = (theme) => ({
   p: 4,
 });
 
-function NewFactoryModal() {
+function NewFactoryModal({ handleAddNewFactory, ...restProps }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const {
     handleSubmit,
@@ -44,9 +52,23 @@ function NewFactoryModal() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
-    handleClose();
+    setIsLoading(true);
+    addNewFactory(data)
+      .then((res) => {
+        handleAddNewFactory(res.data);
+        reset();
+        handleClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 5000);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -76,6 +98,11 @@ function NewFactoryModal() {
               </Typography>
               <CancelIcon sx={{ cursor: "pointer" }} onClick={handleClose} />
             </Box>
+            {isError && (
+              <Alert severity="error">
+                Something went wrong. Please try again later.
+              </Alert>
+            )}
             <Box mt="1rem">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
@@ -122,7 +149,17 @@ function NewFactoryModal() {
                   )}
                 />
                 <Box sx={{ display: "flex", justifyContent: "end", mt: 1 }}>
-                  <Button variant="contained" type="submit" color="success">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    color="success"
+                    disabled={isLoading}
+                    endIcon={
+                      isLoading ? (
+                        <CircularProgress size="1rem" color="inherit" />
+                      ) : null
+                    }
+                  >
                     Add
                   </Button>
                 </Box>

@@ -26,36 +26,12 @@ import {
 } from "../../components";
 import EditFactoryModal from "../EditFactoryModal/EditFactoryModal";
 
-function FactoryTable(props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const [factories, setFactories] = useState(null);
-
+function FactoryTable({ isLoading, isError, factories, ...restProps }) {
   const [showDelete, setShowDelete] = useState(false);
   const [factoryDeleteId, setFactoryDeleteId] = useState(null);
 
   const [showUpdate, setShowUpdate] = useState(false);
   const [factoryUpdateId, setFactoryUpdateId] = useState(null);
-
-  useEffect(() => {
-    handleGetAllFactory();
-  }, []);
-
-  const handleGetAllFactory = () => {
-    setIsLoading(true);
-    getAllFactory()
-      .then((res) => {
-        console.log(res);
-        setFactories(res.data);
-      })
-      .catch((err) => {
-        setIsError(true);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   const onDeleteClick = (factoryId) => {
     setFactoryDeleteId(factoryId);
@@ -91,7 +67,7 @@ function FactoryTable(props) {
     <ErrorScreen />
   ) : (
     <>
-      <Box {...props}>
+      <Box {...restProps} key={factories.length}>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
