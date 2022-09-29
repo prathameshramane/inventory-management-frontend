@@ -15,6 +15,9 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+// Router DOM
+import { useNavigate } from "react-router-dom";
+
 // Containers
 import {
   ErrorScreen,
@@ -26,6 +29,9 @@ import EditFactoryModal from "../EditFactoryModal/EditFactoryModal";
 // Services
 import { deleteFactory } from "../../services";
 
+// Constants
+import ROUTES from "../../constants/routes";
+
 function FactoryTable({
   isLoading,
   isError,
@@ -33,6 +39,8 @@ function FactoryTable({
   setFactories,
   ...restProps
 }) {
+  const navigate = useNavigate();
+
   const [showDelete, setShowDelete] = useState(false);
   const [factoryDeleteId, setFactoryDeleteId] = useState(null);
 
@@ -49,7 +57,6 @@ function FactoryTable({
   };
 
   const handleDelete = () => {
-    console.log("Deleting factory with Id: ", factoryDeleteId);
     const indexOfDeletedData = getFactoryIndexById(factoryDeleteId);
     const newFactories = factories.slice();
     newFactories.splice(indexOfDeletedData, 1);
@@ -76,6 +83,10 @@ function FactoryTable({
     return index;
   };
 
+  const navigateToProducts = (factoryId) => {
+    navigate(ROUTES.getProductsRoute(factoryId));
+  };
+
   return (isLoading || factories == null) && !isError ? (
     <LoadingScreen />
   ) : isError ? (
@@ -98,7 +109,11 @@ function FactoryTable({
               <TableBody>
                 {factories.map((factory) => {
                   return (
-                    <TableRow hover key={factory.id}>
+                    <TableRow
+                      hover
+                      key={factory.id}
+                      onClick={() => navigateToProducts(factory.id)}
+                    >
                       <TableCell>{factory.id}</TableCell>
                       <TableCell>{factory.name}</TableCell>
                       <TableCell>{factory.location}</TableCell>

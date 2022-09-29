@@ -12,6 +12,9 @@ import { FactoryTable, NewFactoryModal } from "../../containers";
 // Services
 import { getAllFactory } from "../../services";
 
+// Components
+import { Page } from "../../components";
+
 function Factory() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -43,8 +46,7 @@ function Factory() {
   };
 
   return (
-    <Container sx={{ marginTop: "1.5rem" }}>
-      <Toolbar />
+    <Page>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h4">Factories</Typography>
         <NewFactoryModal handleAddNewFactory={handleAddNewFactory} />
@@ -56,7 +58,7 @@ function Factory() {
         factories={factories}
         setFactories={setFactories}
       />
-    </Container>
+    </Page>
   );
 }
 
