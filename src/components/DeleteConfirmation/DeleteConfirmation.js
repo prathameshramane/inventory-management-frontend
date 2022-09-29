@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Material UI
 import Modal from "@mui/material/Modal";
@@ -7,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import Fade from "@mui/material/Fade";
 import Backdrop from "@mui/material/Backdrop";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 
 // Material UI
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -26,8 +28,35 @@ const style = (theme) => ({
   p: 4,
 });
 
-function DeleteConfirmation({ show, setShow, onConfirmDelete, ...restProps }) {
+function DeleteConfirmation({
+  show,
+  setShow,
+  onConfirmDelete,
+  handleDelete,
+  ...restProps
+}) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const handleClose = () => setShow(false);
+
+  const handleConfirm = () => {
+    setIsLoading(true);
+    onConfirmDelete()
+      .then(() => {
+        handleDelete();
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 5000);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <Modal
@@ -47,13 +76,22 @@ function DeleteConfirmation({ show, setShow, onConfirmDelete, ...restProps }) {
             </Typography>
             <CancelIcon sx={{ cursor: "pointer" }} onClick={handleClose} />
           </Box>
+          {isError && (
+            <Alert severity="error">
+              Something went wrong. Please try again later.
+            </Alert>
+          )}
           <Typography sx={{ mt: 2 }}>This action in not reversible!</Typography>
           <Box mt="1rem">
             <Button
               variant="contained"
               color="error"
               sx={{ margin: "0.2rem" }}
-              onClick={onConfirmDelete}
+              onClick={handleConfirm}
+              endIcon={
+                isLoading && <CircularProgress color="inherit" size="0.8rem" />
+              }
+              disabled={isLoading}
             >
               Delete
             </Button>

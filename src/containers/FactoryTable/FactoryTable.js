@@ -23,6 +23,9 @@ import {
 } from "../../components";
 import EditFactoryModal from "../EditFactoryModal/EditFactoryModal";
 
+// Services
+import { deleteFactory } from "../../services";
+
 function FactoryTable({
   isLoading,
   isError,
@@ -41,8 +44,16 @@ function FactoryTable({
     setShowDelete(true);
   };
 
+  const onConfirmDelete = () => {
+    return deleteFactory(factoryDeleteId);
+  };
+
   const handleDelete = () => {
     console.log("Deleting factory with Id: ", factoryDeleteId);
+    const indexOfDeletedData = getFactoryIndexById(factoryDeleteId);
+    const newFactories = factories.slice();
+    newFactories.splice(indexOfDeletedData, 1);
+    setFactories(newFactories);
     setFactoryDeleteId(null);
     setShowDelete(false);
   };
@@ -118,7 +129,8 @@ function FactoryTable({
       <DeleteConfirmation
         show={showDelete}
         setShow={setShowDelete}
-        onConfirmDelete={handleDelete}
+        onConfirmDelete={onConfirmDelete}
+        handleDelete={handleDelete}
       />
       <EditFactoryModal
         show={showUpdate}
