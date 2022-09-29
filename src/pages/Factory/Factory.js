@@ -42,10 +42,6 @@ function Factory() {
     setFactories(newFactories);
   };
 
-  const handleDeleteFactory = (factoryId) => {};
-
-  const handleUpdateFactory = (factoryId) => {};
-
   return (
     <Container sx={{ marginTop: "1.5rem" }}>
       <Toolbar />
@@ -58,8 +54,7 @@ function Factory() {
         isLoading={isLoading}
         isError={isError}
         factories={factories}
-        // handleDeleteFactory={handleDeleteFactory}
-        // handleUpdateFactory={handleUpdateFactory}
+        setFactories={setFactories}
       />
     </Container>
   );

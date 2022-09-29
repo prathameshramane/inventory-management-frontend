@@ -1,6 +1,7 @@
 // Factories
 export { default as addNewFactory } from "./factory/addNewFactory";
 export { default as getAllFactory } from "./factory/getAllFactory";
+export { default as getFactoryById } from "./factory/getFactoryById";
 export { default as updateFactory } from "./factory/updateFactory";
 export { default as deleteFactory } from "./factory/deleteFactory";
 

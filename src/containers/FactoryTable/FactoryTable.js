@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // Material UI
 import Paper from "@mui/material/Paper";
@@ -15,9 +15,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-// Services
-import { getAllFactory } from "../../services";
-
 // Containers
 import {
   ErrorScreen,
@@ -26,7 +23,13 @@ import {
 } from "../../components";
 import EditFactoryModal from "../EditFactoryModal/EditFactoryModal";
 
-function FactoryTable({ isLoading, isError, factories, ...restProps }) {
+function FactoryTable({
+  isLoading,
+  isError,
+  factories,
+  setFactories,
+  ...restProps
+}) {
   const [showDelete, setShowDelete] = useState(false);
   const [factoryDeleteId, setFactoryDeleteId] = useState(null);
 
@@ -50,15 +53,16 @@ function FactoryTable({ isLoading, isError, factories, ...restProps }) {
   };
 
   const handleUpdate = (updatedData) => {
-    console.log("Updating factory with Id: ", factoryUpdateId);
-    console.log("Updated Data: ", updatedData);
-    setFactoryUpdateId(null);
+    const indexOfUpdatedData = getFactoryIndexById(updatedData.id);
+    const newFactories = factories.slice();
+    newFactories[indexOfUpdatedData] = updatedData;
+    setFactories(newFactories);
     setShowUpdate(false);
   };
 
-  const getFactoryDataById = (factoryId) => {
+  const getFactoryIndexById = (factoryId) => {
     const index = factories.findIndex((factory) => factory.id === factoryId);
-    return factories[index];
+    return index;
   };
 
   return (isLoading || factories == null) && !isError ? (
@@ -120,7 +124,7 @@ function FactoryTable({ isLoading, isError, factories, ...restProps }) {
         show={showUpdate}
         setShow={setShowUpdate}
         onConfirmUpdate={handleUpdate}
-        factory={getFactoryDataById(factoryUpdateId)}
+        factoryId={factoryUpdateId}
       />
     </>
   );
