@@ -109,14 +109,16 @@ function FactoryTable({
               <TableBody>
                 {factories.map((factory) => {
                   return (
-                    <TableRow
-                      hover
-                      key={factory.id}
-                      onClick={() => navigateToProducts(factory.id)}
-                    >
-                      <TableCell>{factory.id}</TableCell>
-                      <TableCell>{factory.name}</TableCell>
-                      <TableCell>{factory.location}</TableCell>
+                    <TableRow hover key={factory.id}>
+                      <TableCell onClick={() => navigateToProducts(factory.id)}>
+                        {factory.id}
+                      </TableCell>
+                      <TableCell onClick={() => navigateToProducts(factory.id)}>
+                        {factory.name}
+                      </TableCell>
+                      <TableCell onClick={() => navigateToProducts(factory.id)}>
+                        {factory.location}
+                      </TableCell>
                       <TableCell>
                         <IconButton
                           color="primary"
