@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import { useParams } from "react-router-dom";
 
 // Containers
-import { ProductTable } from "../../containers";
+import { NewProductModal, ProductTable } from "../../containers";
 
 // Components
 import { Page, LoadingScreen, ErrorScreen } from "../../components";
@@ -43,6 +43,11 @@ function Product() {
       });
   };
 
+  const handleNewProduct = (newProduct) => {
+    console.log(newProduct);
+    window.location.reload();
+  };
+
   return loading ? (
     <LoadingScreen />
   ) : error ? (
@@ -51,6 +56,10 @@ function Product() {
     <Page>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h4">{factory && factory.name} Products</Typography>
+        <NewProductModal
+          factoryId={factoryId}
+          handleAddNewProduct={handleNewProduct}
+        />
       </Box>
       <ProductTable factoryId={factoryId} />
     </Page>
