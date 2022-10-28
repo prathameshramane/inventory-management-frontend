@@ -9,17 +9,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+
+// Material Icon
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Components
-import { ErrorScreen, LoadingScreen } from "../../components";
+import {
+  ErrorScreen,
+  LoadingScreen,
+  DeleteConfirmation,
+} from "../../components";
 
 // Services
-import { getProductsByFactory } from "../../services";
+import { getProductsByFactory, deleteProduct } from "../../services";
 
 function ProducTable({ factoryId, ...restProps }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [products, setProducts] = useState(null);
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [productDeleteId, setProductDeleteId] = useState(null);
 
   useEffect(() => {
     fetchProducts(factoryId);
@@ -41,54 +53,107 @@ function ProducTable({ factoryId, ...restProps }) {
       });
   };
 
+  const onDeleteClick = (productId) => {
+    setProductDeleteId(productId);
+    setShowDelete(true);
+  };
+
+  const onConfirmDelete = () => {
+    return deleteProduct(factoryId, productDeleteId);
+  };
+
+  const getProductIndexById = (productId) => {
+    const index = products.findIndex((product) => product.id === productId);
+    return index;
+  };
+
+  const handleDelete = () => {
+    const indexOfDeletedData = getProductIndexById(productDeleteId);
+    const newProducts = products.slice();
+    newProducts.splice(indexOfDeletedData, 1);
+    setProducts(newProducts);
+    setProductDeleteId(null);
+    setShowDelete(false);
+  };
+
   return (isLoading || !products) && !isError ? (
     <LoadingScreen />
   ) : isError ? (
     <ErrorScreen />
   ) : (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1rem" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="left" style={{ minWidth: 80 }}>
-                Id
-              </TableCell>
-              <TableCell align="left" style={{ minWidth: 80 }}>
-                Product Image
-              </TableCell>
-              <TableCell align="left" style={{ minWidth: 80 }}>
-                Product Name
-              </TableCell>
-              <TableCell align="left" style={{ minWidth: 80 }}>
-                Quantity
-              </TableCell>
-              <TableCell align="left" style={{ minWidth: 120 }}>
-                Description
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow hover role="checkbox" tabIndex={-1} key={product.id}>
-                <TableCell align="left">{product.id}</TableCell>
-                <TableCell align="left">
-                  <Avatar
-                    alt={product.name}
-                    src={product.imageUrl}
-                    variant="rounded"
-                    sx={{ width: 56, height: 56 }}
-                  />
+    <>
+      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "1rem" }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left" style={{ minWidth: 80 }}>
+                  Id
                 </TableCell>
-                <TableCell align="left">{product.name}</TableCell>
-                <TableCell align="left">{product.quantity}</TableCell>
-                <TableCell align="left">{product.description}</TableCell>
+                <TableCell align="left" style={{ minWidth: 80 }}>
+                  Product Image
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: 80 }}>
+                  Product Name
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: 80 }}>
+                  Quantity
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: 120 }}>
+                  Description
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: 120 }}>
+                  Edit
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: 120 }}>
+                  Delete
+                </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+            </TableHead>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={product.id}>
+                  <TableCell align="left">{product.id}</TableCell>
+                  <TableCell align="left">
+                    <Avatar
+                      alt={product.name}
+                      src={product.imageUrl}
+                      variant="rounded"
+                      sx={{ width: 56, height: 56 }}
+                    />
+                  </TableCell>
+                  <TableCell align="left">{product.name}</TableCell>
+                  <TableCell align="left">{product.quantity}</TableCell>
+                  <TableCell align="left">{product.description}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => console.log("Edit")}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="error"
+                      onClick={() => onDeleteClick(product.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <DeleteConfirmation
+        show={showDelete}
+        setShow={setShowDelete}
+        onConfirmDelete={onConfirmDelete}
+        handleDelete={handleDelete}
+      />
+    </>
   );
 }
 
