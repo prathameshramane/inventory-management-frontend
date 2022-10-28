@@ -204,6 +204,7 @@ function ProducTable({ factoryId, ...restProps }) {
         show={showInfo}
         setShow={setShowInfo}
         productId={activeInfoProductId}
+        factoryId={factoryId}
       />
     </>
   );

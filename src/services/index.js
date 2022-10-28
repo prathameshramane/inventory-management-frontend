@@ -10,3 +10,4 @@ export { default as addNewProduct } from "./product/addNewProduct";
 export { default as getProductsByFactory } from "./product/getProductsByFactory";
 export { default as updateProduct } from "./product/updateProduct";
 export { default as deleteProduct } from "./product/deleteProduct";
+export { default as getProductDetails } from "./product/getProductDetails";
