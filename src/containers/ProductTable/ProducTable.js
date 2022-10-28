@@ -22,6 +22,9 @@ import {
   DeleteConfirmation,
 } from "../../components";
 
+// Containers
+import { EditProductModal, ProductDetailsModal } from "../../containers";
+
 // Services
 import { getProductsByFactory, deleteProduct } from "../../services";
 
@@ -32,6 +35,12 @@ function ProducTable({ factoryId, ...restProps }) {
 
   const [showDelete, setShowDelete] = useState(false);
   const [productDeleteId, setProductDeleteId] = useState(null);
+
+  const [showEdit, setShowEdit] = useState(false);
+  const [activeEditProductId, setActiveEditProductId] = useState(null);
+
+  const [showInfo, setShowInfo] = useState(false);
+  const [activeInfoProductId, setActiveInfoProductId] = useState(null);
 
   useEffect(() => {
     fetchProducts(factoryId);
@@ -76,6 +85,16 @@ function ProducTable({ factoryId, ...restProps }) {
     setShowDelete(false);
   };
 
+  const onEditClick = (productId) => {
+    setActiveEditProductId(productId);
+    setShowEdit(true);
+  };
+
+  const handleProductInformation = (productId) => {
+    setActiveInfoProductId(productId);
+    setShowInfo(true);
+  };
+
   return (isLoading || !products) && !isError ? (
     <LoadingScreen />
   ) : isError ? (
@@ -113,8 +132,16 @@ function ProducTable({ factoryId, ...restProps }) {
             <TableBody>
               {products.map((product) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={product.id}>
-                  <TableCell align="left">{product.id}</TableCell>
-                  <TableCell align="left">
+                  <TableCell
+                    align="left"
+                    onClick={() => handleProductInformation(product.id)}
+                  >
+                    {product.id}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => handleProductInformation(product.id)}
+                  >
                     <Avatar
                       alt={product.name}
                       src={product.imageUrl}
@@ -122,13 +149,28 @@ function ProducTable({ factoryId, ...restProps }) {
                       sx={{ width: 56, height: 56 }}
                     />
                   </TableCell>
-                  <TableCell align="left">{product.name}</TableCell>
-                  <TableCell align="left">{product.quantity}</TableCell>
-                  <TableCell align="left">{product.description}</TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => handleProductInformation(product.id)}
+                  >
+                    {product.name}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => handleProductInformation(product.id)}
+                  >
+                    {product.quantity}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => handleProductInformation(product.id)}
+                  >
+                    {product.description}
+                  </TableCell>
                   <TableCell>
                     <IconButton
                       color="primary"
-                      onClick={() => console.log("Edit")}
+                      onClick={() => onEditClick(product.id)}
                     >
                       <EditIcon />
                     </IconButton>
@@ -152,6 +194,16 @@ function ProducTable({ factoryId, ...restProps }) {
         setShow={setShowDelete}
         onConfirmDelete={onConfirmDelete}
         handleDelete={handleDelete}
+      />
+      <EditProductModal
+        show={showEdit}
+        setShow={setShowEdit}
+        productId={activeEditProductId}
+      />
+      <ProductDetailsModal
+        show={showInfo}
+        setShow={setShowInfo}
+        productId={activeInfoProductId}
       />
     </>
   );
