@@ -107,7 +107,7 @@ function ProductDetailsModal({
                       <img src={product.imageUrl} width="100%" />
                     </Box>
                   </Grid>
-                  <Grid item md={6} xs={12} spacing={2}>
+                  <Grid item md={6} xs={12}>
                     <Box
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >
