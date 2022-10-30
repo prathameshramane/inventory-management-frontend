@@ -119,9 +119,6 @@ function ProducTable({ factoryId, ...restProps }) {
                   Quantity
                 </TableCell>
                 <TableCell align="left" style={{ minWidth: 120 }}>
-                  Description
-                </TableCell>
-                <TableCell align="left" style={{ minWidth: 120 }}>
                   Edit
                 </TableCell>
                 <TableCell align="left" style={{ minWidth: 120 }}>
@@ -160,12 +157,6 @@ function ProducTable({ factoryId, ...restProps }) {
                     onClick={() => handleProductInformation(product.id)}
                   >
                     {product.quantity}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    onClick={() => handleProductInformation(product.id)}
-                  >
-                    {product.description}
                   </TableCell>
                   <TableCell>
                     <IconButton
