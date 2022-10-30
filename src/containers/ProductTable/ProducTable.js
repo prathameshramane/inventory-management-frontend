@@ -85,6 +85,13 @@ function ProducTable({ factoryId, ...restProps }) {
     setShowDelete(false);
   };
 
+  const handleEditProduct = (editProductData) => {
+    const indexOfEditedData = getProductIndexById(editProductData.id);
+    const newProducts = products.slice();
+    newProducts[indexOfEditedData] = editProductData;
+    setProducts(newProducts);
+  }
+
   const onEditClick = (productId) => {
     setActiveEditProductId(productId);
     setShowEdit(true);
@@ -190,6 +197,8 @@ function ProducTable({ factoryId, ...restProps }) {
         show={showEdit}
         setShow={setShowEdit}
         productId={activeEditProductId}
+        factoryId={factoryId}
+        handleEditProduct={handleEditProduct}
       />
       <ProductDetailsModal
         show={showInfo}
