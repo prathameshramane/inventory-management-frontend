@@ -54,6 +54,7 @@ function ProductDetailsModal({
 
   useEffect(() => {
     if (productId) fetchProductDetails();
+    // eslint-disable-next-line
   }, [productId]);
 
   const fetchProductDetails = () => {
@@ -104,7 +105,7 @@ function ProductDetailsModal({
                         boxShadow: "0px 2px 10px #d6d6d6",
                       }}
                     >
-                      <img src={product.imageUrl} width="100%" />
+                      <img src={product.imageUrl} width="100%" alt="product" />
                     </Box>
                   </Grid>
                   <Grid item md={6} xs={12}>

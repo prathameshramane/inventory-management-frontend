@@ -11,7 +11,6 @@ import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 
 // Material Icon
@@ -61,6 +60,7 @@ function EditProductModal({
 
   useEffect(() => {
     if (productId) fetchProductDetails();
+    // eslint-disable-next-line
   }, [productId]);
 
   const handleClose = () => setShow(false);
@@ -167,7 +167,7 @@ function EditProductModal({
                     >
                       <img
                         src={product.imageUrl}
-                        alt="Image Icon"
+                        alt="product"
                         style={{
                           width: "18rem",
                           height: "14rem",
