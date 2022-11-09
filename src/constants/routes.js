@@ -3,7 +3,7 @@ const ROUTES = {
   PRODUCTS: "/factories/:factoryId",
   getProductsRoute: (factoryId) => `/factories/${factoryId}`,
 
-  API_ROUTE: "http://127.0.0.1:8000/api",
+  API_ROUTE: "https://prathamesh-api.azurewebsites.net/api",
 };
 
 export default ROUTES;
