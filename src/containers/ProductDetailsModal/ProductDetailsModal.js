@@ -45,9 +45,13 @@ function ProductDetailsModal({
   setShow,
   productId,
   factoryId,
+  onClose,
   ...restProps
 }) {
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    onClose();
+    setShow(false);
+  };
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

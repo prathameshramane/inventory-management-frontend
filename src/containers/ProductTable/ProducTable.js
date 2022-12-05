@@ -90,7 +90,7 @@ function ProducTable({ factoryId, ...restProps }) {
     const newProducts = products.slice();
     newProducts[indexOfEditedData] = editProductData;
     setProducts(newProducts);
-  }
+  };
 
   const onEditClick = (productId) => {
     setActiveEditProductId(productId);
@@ -100,6 +100,10 @@ function ProducTable({ factoryId, ...restProps }) {
   const handleProductInformation = (productId) => {
     setActiveInfoProductId(productId);
     setShowInfo(true);
+  };
+
+  const onCloseProductDetails = () => {
+    setActiveInfoProductId(null);
   };
 
   return (isLoading || !products) && !isError ? (
@@ -205,6 +209,7 @@ function ProducTable({ factoryId, ...restProps }) {
         setShow={setShowInfo}
         productId={activeInfoProductId}
         factoryId={factoryId}
+        onClose={onCloseProductDetails}
       />
     </>
   );

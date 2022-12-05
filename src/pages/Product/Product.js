@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 // Material UI
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import { Link as MaterialLink } from "@mui/material";
 
 // Router
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 // Containers
 import { NewProductModal, ProductTable } from "../../containers";
@@ -15,6 +17,7 @@ import { Page, LoadingScreen, ErrorScreen } from "../../components";
 
 // Services
 import { getFactoryById } from "../../services";
+import ROUTES from "../../constants/routes";
 
 function Product() {
   const { factoryId } = useParams();
@@ -54,6 +57,16 @@ function Product() {
     <ErrorScreen />
   ) : (
     <Page>
+      <Breadcrumbs
+        separator="/"
+        aria-label="breadcrumb"
+        sx={{ marginBottom: "1rem" }}
+      >
+        <MaterialLink underline="hover" color="inherit">
+          <Link to={ROUTES.FACTORIES}>Factories</Link>
+        </MaterialLink>
+        <Typography color="text.primary">Product</Typography>
+      </Breadcrumbs>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h4">{factory && factory.name} Products</Typography>
         <NewProductModal

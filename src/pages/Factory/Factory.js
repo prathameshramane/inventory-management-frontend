@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 // Material UI
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 // Containers
 import { FactoryTable, NewFactoryModal } from "../../containers";
@@ -47,6 +46,13 @@ function Factory() {
 
   return (
     <Page>
+      <Breadcrumbs
+        separator="/"
+        aria-label="breadcrumb"
+        sx={{ marginBottom: "1rem" }}
+      >
+        <Typography color="text.primary">Factories</Typography>
+      </Breadcrumbs>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h4">Factories</Typography>
         <NewFactoryModal handleAddNewFactory={handleAddNewFactory} />
