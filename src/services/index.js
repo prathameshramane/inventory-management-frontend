@@ -11,3 +11,8 @@ export { default as getProductsByFactory } from "./product/getProductsByFactory"
 export { default as updateProduct } from "./product/updateProduct";
 export { default as deleteProduct } from "./product/deleteProduct";
 export { default as getProductDetails } from "./product/getProductDetails";
+
+// Order
+export { default as addOrderToQueue } from "./order/addOrderToQueue";
+export { default as getAllOrder } from "./order/getAllOrder";
+export { default as getSpecificOrder } from "./order/getSpecificOrder";

@@ -170,6 +170,31 @@ function NewProductModal({ factoryId, handleAddNewProduct, ...restProps }) {
                 />
                 <br />
                 <Controller
+                  name="price"
+                  control={control}
+                  rules={{ required: true, pattern: /^[0-9]*$/ }}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      label="Product Price"
+                      variant="outlined"
+                      error={!!errors.price}
+                      helperText={
+                        errors.price &&
+                        (errors.price?.type === "required"
+                          ? "This field is required"
+                          : errors.price?.type === "pattern"
+                          ? "Quantity should be a number."
+                          : "")
+                      }
+                      fullWidth
+                      margin="dense"
+                    />
+                  )}
+                />
+                <br />
+                <Controller
                   name="description"
                   control={control}
                   rules={{ required: true, pattern: "^[0-9]*$" }}

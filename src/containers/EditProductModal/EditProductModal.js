@@ -234,6 +234,25 @@ function EditProductModal({
                           }
                         />
                         <TextField
+                          label="Product Price"
+                          defaultValue={product.price}
+                          variant="outlined"
+                          type="number"
+                          fullWidth
+                          margin="dense"
+                          name="price"
+                          inputProps={{
+                            ...register("price", { required: true }),
+                          }}
+                          error={!!errors.price}
+                          helperText={
+                            errors.price &&
+                            errors.price?.type === "required"
+                              ? "This field is required"
+                              : ""
+                          }
+                        />
+                        <TextField
                           label="Product Description"
                           defaultValue={product.description}
                           variant="outlined"
