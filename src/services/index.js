@@ -16,3 +16,4 @@ export { default as getProductDetails } from "./product/getProductDetails";
 export { default as addOrderToQueue } from "./order/addOrderToQueue";
 export { default as getAllOrder } from "./order/getAllOrder";
 export { default as getSpecificOrder } from "./order/getSpecificOrder";
+export { default as getNumberOfOrders } from "./order/getNumberOfOrders";

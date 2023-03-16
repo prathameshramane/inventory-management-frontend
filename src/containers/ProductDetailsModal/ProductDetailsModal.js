@@ -13,7 +13,7 @@ import Chip from "@mui/material/Chip";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 // Services
-import { getProductDetails } from "../../services";
+import { getProductDetails, getNumberOfOrders } from "../../services";
 
 // Components
 import { Loading, Error } from "../../components";
@@ -62,10 +62,17 @@ function ProductDetailsModal({
   }, [productId]);
 
   const fetchProductDetails = () => {
+    let productDetailsTemp;
     setLoading(true);
     getProductDetails(factoryId, productId)
-      .then((res) => {
-        setProduct(res.data);
+      .then((productDetails) => {
+        productDetailsTemp = productDetails.data;
+        setProduct(productDetailsTemp);
+        setError(false);
+        return getNumberOfOrders(productId);
+      })
+      .then((orderDetails) => {
+        setProduct({ ...productDetailsTemp, order: orderDetails.data });
         setError(false);
       })
       .catch((err) => setError(true))
@@ -112,7 +119,13 @@ function ProductDetailsModal({
                       <img src={product.imageUrl} width="100%" alt="product" />
                     </Box>
                   </Grid>
-                  <Grid item md={6} xs={12}>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                    sx={{ maxHeight: "20rem", overflowY: "scroll" }}
+                    className="hide-scrollbar"
+                  >
                     <Box
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >
@@ -140,6 +153,15 @@ function ProductDetailsModal({
                       </Typography>
                       <Typography variant="body1" component="p">
                         Factory location: {product.factory.location}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <hr />
+                      <Typography variant="h6" component="h5">
+                        Order Information
+                      </Typography>
+                      <Typography variant="body1" component="p">
+                        Number of orders: {product.order.orderCount}
                       </Typography>
                     </Box>
                   </Grid>
